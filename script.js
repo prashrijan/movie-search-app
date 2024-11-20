@@ -4,6 +4,19 @@ const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const SEARCHAPI =
   "https://api.themoviedb.org/3/search/movie?&api_key=466ef338446928731e86da2978827c56&query=";
 
-fetch(APIURL)
-  .then((res) => res.json())
-  .then((data) => console.log(data.results));
+let movies = [];
+
+const getMovies = async () => {
+  const res = await fetch(APIURL);
+  const data = await res.json();
+
+  movies = data.results;
+  console.log(data.results);
+  return movies;
+};
+
+const displayMovie = (lists) => {\
+    lists.fo
+};
+
+window.addEventListener("load", getMovies);
