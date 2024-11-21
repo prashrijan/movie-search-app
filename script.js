@@ -112,6 +112,9 @@ const displayDetails = (movie) => {
               <strong>Rating:</strong> ${movie.vote_average || "N/A"} / 10
             </p>
             <button class="btn btn-primary" id="back-to-main">Back to Movies</button>
+            <button class="btn btn-primary favorites" data-id="${
+              movie.id
+            }">Add to Favorites</button>
           </div>
         </div>
       </div>
@@ -119,6 +122,7 @@ const displayDetails = (movie) => {
   `;
 
   detailsContainer.appendChild(detsCard);
+
   // Back to Movies Event Listener
   document.getElementById("back-to-main").addEventListener("click", () => {
     dets.classList.add("d-none");
