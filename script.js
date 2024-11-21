@@ -12,6 +12,8 @@ const favBtn = document.getElementById("fav");
 const favoritesContainer = document.getElementById("favorites-container");
 const main = document.getElementById("main");
 const favs = document.getElementById("favs");
+const detailsContainer = document.getElementById("details-container");
+const dets = document.getElementById("details");
 
 let movies = [];
 let favoriteMovies = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -59,6 +61,54 @@ const displayFavorites = () => {
   });
 };
 
+// Display Details
+
+const displayDetails = (movie) => {
+  console.log(movie);
+  main.classList.add("d-none");
+  favs.classList.add("d-none");
+  dets.classList.remove("d-none");
+
+  detailsContainer.innerHTML = "";
+
+  const detsCard = document.createElement("div");
+  detsCard.innerHTML = `
+    <div class="card mb-3" style="max-width: 900px">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img
+            src="${IMGPATH}${movie.poster_path}"
+            class="img-fluid rounded-start"
+            alt="${movie.original_title}"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">${movie.original_title}</h5>
+            <p class="card-text">
+              ${movie.overview || "No description available."}
+            </p>
+            <p class="card-text">
+              <strong>Release Date:</strong> ${movie.release_date || "N/A"}
+            </p>
+            <p class="card-text">
+              <strong>Rating:</strong> ${movie.vote_average || "N/A"} / 10
+            </p>
+            <button class="btn btn-primary" id="back-to-main">Back to Movies</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  detailsContainer.appendChild(detsCard);
+  // Back to Movies Event Listener
+  document.getElementById("back-to-main").addEventListener("click", () => {
+    dets.classList.add("d-none");
+    main.classList.remove("d-none");
+  });
+};
+
 // Fetch and Display Movies
 const getMovies = async () => {
   const res = await fetch(APIURL);
@@ -99,6 +149,11 @@ const displayMovie = (lists) => {
     col
       .querySelector("button")
       .addEventListener("click", () => addToFavorites(movie));
+
+    // Add Event Listener for Showing Details
+    col.addEventListener("click", () => {
+      displayDetails(movie);
+    });
   });
 };
 
