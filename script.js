@@ -7,6 +7,7 @@ const SEARCHAPI =
 const search = document.getElementById("search");
 const moviesContainer = document.getElementById("movies-container");
 const spinner = document.getElementById("spinner");
+const inputContainer = document.getElementById("input-container");
 
 let movies = [];
 
@@ -23,7 +24,6 @@ const getMovies = async () => {
 const displayMovie = (lists) => {
   moviesContainer.innerHTML = "";
   lists.forEach((item) => {
-    console.log(item);
     const col = document.createElement("col");
     col.classList.add("col");
 
@@ -49,3 +49,32 @@ const displayMovie = (lists) => {
 };
 
 getMovies();
+
+const searchMovie = async (query) => {
+  const endPoint = SEARCHAPI + query;
+  const res = await fetch(endPoint);
+  const data = await res.json();
+
+  movies = data.results;
+  console.log(movies);
+};
+
+inputContainer.addEventListener("input", (e) => {
+  const value = e.target.value.toLowerCase();
+
+  if (value.length <= 0) {
+    displayMovie(movies);
+    return;
+  }
+
+  searchMovie(value);
+  const filteredMovies = movies.filter((movie) => {
+    return (
+      movie.original_title.toLowerCase().includes(value) ||
+      movie.overview.toLowerCase().includes(value)
+    );
+  });
+
+  moviesContainer.innerHTML = "";
+  displayMovie(filteredMovies);
+});
