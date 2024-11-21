@@ -34,6 +34,14 @@ const addToFavorites = (movie) => {
   }
 };
 
+// Rewmove From Favorites
+
+const removeFromFavorites = (movie) => {
+  favoriteMovies = favoriteMovies.filter((fav) => fav.id !== movie.id);
+  localStorage.setItem("favorites", JSON.stringify(favoriteMovies));
+  displayFavorites();
+};
+
 // Display Favorites
 const displayFavorites = () => {
   favoritesContainer.innerHTML = "";
@@ -53,9 +61,18 @@ const displayFavorites = () => {
           <p class="card-text text-truncate">
             ${movie.overview}
           </p>
+           <button class="btn btn-primary">Remove From Favorties</button>
         </div>
       </div>
     `;
+
+    col.querySelector("button").addEventListener("click", () => {
+      removeFromFavorites(movie);
+    });
+
+    col.querySelector("img").addEventListener("click", () => {
+      displayDetails(movie);
+    });
 
     favoritesContainer.appendChild(col);
   });
@@ -151,7 +168,7 @@ const displayMovie = (lists) => {
       .addEventListener("click", () => addToFavorites(movie));
 
     // Add Event Listener for Showing Details
-    col.addEventListener("click", () => {
+    col.querySelector("img").addEventListener("click", () => {
       displayDetails(movie);
     });
   });
