@@ -15,6 +15,9 @@ const favs = document.getElementById("favs");
 const detailsContainer = document.getElementById("details-container");
 const dets = document.getElementById("details");
 
+const toastLiveExample = document.getElementById("liveToast");
+const toastMessage = document.getElementById("toastMessage");
+const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
 let movies = [];
 let favoriteMovies = JSON.parse(localStorage.getItem("favorites")) || [];
 
@@ -32,6 +35,11 @@ const addToFavorites = (movie) => {
     localStorage.setItem("favorites", JSON.stringify(favoriteMovies));
     displayFavorites();
   }
+
+  if (favoriteMovies) {
+    toastMessage.innerText = "Movie added in favorites😍.";
+    toastBootstrap.show();
+  }
 };
 
 // Rewmove From Favorites
@@ -40,6 +48,8 @@ const removeFromFavorites = (movie) => {
   favoriteMovies = favoriteMovies.filter((fav) => fav.id !== movie.id);
   localStorage.setItem("favorites", JSON.stringify(favoriteMovies));
   displayFavorites();
+  toastBootstrap.show();
+  toastMessage.innerText = "Movie removed from favorites.";
 };
 
 // Display Favorites
@@ -48,6 +58,7 @@ const displayFavorites = () => {
   if (favoriteMovies.length === 0) {
     favoritesContainer.innerHTML = "<h2>No Favorites added Yet.</h2>";
   }
+
   favoriteMovies.forEach((movie) => {
     const col = document.createElement("div");
     col.classList.add("col");
@@ -84,7 +95,6 @@ const displayFavorites = () => {
 // Display Details
 
 const displayDetails = (movie) => {
-  console.log(movie);
   main.classList.add("d-none");
   favs.classList.add("d-none");
   dets.classList.remove("d-none");
@@ -112,12 +122,11 @@ const displayDetails = (movie) => {
               <strong>Release Date:</strong> ${movie.release_date || "N/A"}
             </p>
             <p class="card-text">
-              <strong>Rating:</strong> ${movie.vote_average || "N/A"} / 10
+              <strong>Rating:</strong> ${
+                Math.round(movie.vote_average) || "N/A"
+              } / 10
             </p>
             <button class="btn btn-primary" id="back-to-main">Back to Movies</button>
-            <button class="btn btn-primary favorites" data-id="${
-              movie.id
-            }">Add to Favorites</button>
           </div>
         </div>
       </div>
