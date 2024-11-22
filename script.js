@@ -45,6 +45,9 @@ const removeFromFavorites = (movie) => {
 // Display Favorites
 const displayFavorites = () => {
   favoritesContainer.innerHTML = "";
+  if (favoriteMovies.length === 0) {
+    favoritesContainer.innerHTML = "<h2>No Favorites added Yet.</h2>";
+  }
   favoriteMovies.forEach((movie) => {
     const col = document.createElement("div");
     col.classList.add("col");
