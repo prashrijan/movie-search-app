@@ -64,7 +64,7 @@ const displayFavorites = () => {
     col.classList.add("col");
 
     col.innerHTML = `
-      <div class="card" style="width: 18rem">
+      <div class="card" style="width: 110%">
         <img
         loading="lazy"
           src="${IMGPATH}${movie.poster_path}"
@@ -164,6 +164,7 @@ const displayMovie = (lists) => {
     col.innerHTML = `
       <div class="card" style="width: 17rem">
         <img
+        loading="lazy"
           src="${IMGPATH}${movie.poster_path}"
           class="card-img-top"
           alt="..."
